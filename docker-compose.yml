@@ -1,0 +1,71 @@
+services:
+  # MySQL Database Service
+  mysql:
+    image: mysql:8.0
+    container_name: todo-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: todo_db
+      MYSQL_USER: todo_user
+      MYSQL_PASSWORD: todo_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - todo-network
+
+  # Backend API Service
+  backend:
+    build:
+      context: ./Todo - Backend
+      dockerfile: Dockerfile
+    container_name: todo-backend
+    restart: unless-stopped
+    ports:
+      - "4001:4000"
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USERNAME=todo_user
+      - DB_PASSWORD=todo_password
+      - DB_NAME=todo_db
+      - PORT=4000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - todo-network
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./Todo - Frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL:-http://localhost:4001/api}
+    container_name: todo-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./Todo - Frontend/.env
+    depends_on:
+      - backend
+    networks:
+      - todo-network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  todo-network:
+    driver: bridge
