@@ -16,15 +16,21 @@ A full-stack Todo application with React frontend, Node.js/Express backend, and 
 
 ## Getting Started
 
-### Step 1: Clone the Repositories
+### Step 1: Clone This Repository
 
-First, create a project directory and clone both frontend and backend repositories:
+First, clone this main repository which contains the Docker Compose configuration:
 
 ```bash
-# Create project directory
-mkdir Todo
+# Clone this repository
+git clone https://github.com/Gayal-Seneviratne/todo-app.git Todo
 cd Todo
+```
 
+### Step 2: Clone Backend and Frontend Repositories
+
+Now clone the backend and frontend repositories inside the Todo directory:
+
+```bash
 # Clone backend repository
 git clone https://github.com/Gayal-Seneviratne/todo-backend.git "Todo - Backend"
 
@@ -32,9 +38,7 @@ git clone https://github.com/Gayal-Seneviratne/todo-backend.git "Todo - Backend"
 git clone https://github.com/Gayal-Seneviratne/todo-frontend.git "Todo - Frontend"
 ```
 
-### Step 2: Create Docker Compose File
-
-Create a `docker-compose.yml` file in the `Todo` directory with the configuration provided in this repository, or download it from the setup instructions.
+**Note**: The `docker-compose.yml` file is already included in this repository.
 
 ### Step 3: Configure Environment Variables
 
@@ -60,7 +64,7 @@ Create a `docker-compose.yml` file in the `Todo` directory with the configuratio
    
    Navigate to the frontend directory and create a `.env` file:
    ```bash
-   cd ../Todo - Frontend
+   cd "..\Todo - Frontend"
    cp .env.example .env
    ```
    
@@ -99,22 +103,21 @@ Once all services are up and running, you can access:
 ## Quick Start Summary
 
 ```bash
-# 1. Create and navigate to project directory
-mkdir Todo && cd Todo
+# 1. Clone this repository
+git clone https://github.com/Gayal-Seneviratne/todo-app.git Todo
+cd Todo
 
-# 2. Clone repositories
+# 2. Clone backend and frontend repositories
 git clone https://github.com/Gayal-Seneviratne/todo-backend.git "Todo - Backend"
 git clone https://github.com/Gayal-Seneviratne/todo-frontend.git "Todo - Frontend"
 
-# 3. Create docker-compose.yml in the Todo directory (copy from repository)
-
-# 4. Setup backend .env
+# 3. Setup backend .env
 cd "Todo - Backend" && cp .env.example .env && cd ..
 
-# 5. Setup frontend .env
+# 4. Setup frontend .env
 cd "Todo - Frontend" && cp .env.example .env && cd ..
 
-# 6. Start all services
+# 5. Start all services
 docker-compose up --build
 ```
 
